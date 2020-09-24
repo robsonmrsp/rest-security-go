@@ -36,6 +36,16 @@ var dbHelper *DataBaseHelper = &DataBaseHelper{}
 // TODO Fix that
 var dataBaseHelper *DataBaseHelper = GetDb()
 
+type Repo struct {
+	dataBaseHelper *DataBaseHelper
+}
+
+func NewRepo(dbh *DataBaseHelper) *Repo {
+	s := new(Repo)
+	s.dataBaseHelper = dbh
+	return s
+}
+
 // GetDb ..
 func GetDb() *DataBaseHelper {
 	if dbHelper.db == nil {

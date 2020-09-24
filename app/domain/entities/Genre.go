@@ -2,5 +2,5 @@ package entities
 
 type Genre struct {
 	ID   int    `db:"id" `
-	name string `db:"name"`
+	Name string `db:"name"`
 }

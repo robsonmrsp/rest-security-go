@@ -8,9 +8,9 @@ import (
 )
 
 // Movies ...
-func Movies(engine *gin.Engine, repo repository.Repo, middlewares gin.HandlerFunc) {
+func Movies(engine *gin.Engine, repo repository.MovieRepository, middlewares gin.HandlerFunc) {
 
-	service := services.NewService(&repo)
+	service := services.NewMovieService(repo)
 
 	controller := controllers.NewMovieController(service)
 

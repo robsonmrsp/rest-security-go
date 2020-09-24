@@ -6,9 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/robsonmrsp/rest-security-go/app/domain/entities"
 	"github.com/robsonmrsp/rest-security-go/app/domain/services"
+	"github.com/robsonmrsp/rest-security-go/app/presentation/rest/parser"
 )
 
-type controller struct {
+type movieController struct {
 	service services.MovieService
 }
 
@@ -23,10 +24,10 @@ type MovieController interface {
 
 // NewMovieController ...
 func NewMovieController(movieService services.MovieService) MovieController {
-	return &controller{movieService}
+	return &movieController{movieService}
 }
 
-func (controller *controller) GetMovie() func(c *gin.Context) {
+func (controller *movieController) GetMovie() func(c *gin.Context) {
 	return func(context *gin.Context) {
 		id, _ := strconv.Atoi(context.Param("id"))
 		person, _ := controller.service.GetMovie(id)
@@ -34,15 +35,17 @@ func (controller *controller) GetMovie() func(c *gin.Context) {
 	}
 }
 
-func (controller *controller) GetPageMovie() func(context *gin.Context) {
+func (controller *movieController) GetPageMovie() func(context *gin.Context) {
 	return func(context *gin.Context) {
-		id := context.Param("name")
 
-		context.JSON(200, "devolvendo o id "+id)
+		p := parser.Create(context)
+		movie, _ := controller.service.GetPageMovie(p)
+
+		context.JSON(200, movie)
 	}
 }
 
-func (controller *controller) PostMovie() func(context *gin.Context) {
+func (controller *movieController) PostMovie() func(context *gin.Context) {
 	return func(context *gin.Context) {
 		mo := &entities.Movie{}
 		err := context.BindJSON(&mo)
@@ -58,13 +61,13 @@ func (controller *controller) PostMovie() func(context *gin.Context) {
 	}
 }
 
-func (controller *controller) PutMovie() func(context *gin.Context) {
+func (controller *movieController) PutMovie() func(context *gin.Context) {
 	return func(context *gin.Context) {
 
 	}
 }
 
-func (controller *controller) DeleteMovie() func(context *gin.Context) {
+func (controller *movieController) DeleteMovie() func(context *gin.Context) {
 	return func(context *gin.Context) {
 
 	}

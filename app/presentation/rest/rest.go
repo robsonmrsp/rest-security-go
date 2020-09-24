@@ -13,9 +13,11 @@ func Start() {
 	db := repository.GetDb()
 	mid := middlewares.DBTransactionMidleware(db)
 
-	movieRepo := repository.NewRepo(db)
+	movieRepo := repository.NewMovieRepository(db)
+	genreRepo := repository.NewGenreRepository(db)
 
 	routers.Movies(engine, *movieRepo, mid)
+	routers.Genres(engine, *genreRepo, mid)
 
 	engine.Run()
 }
