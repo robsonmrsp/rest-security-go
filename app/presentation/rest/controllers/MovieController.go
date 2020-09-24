@@ -67,6 +67,7 @@ func (controller *movieController) PutMovie() func(context *gin.Context) {
 	}
 }
 
+// TODO
 func (controller *movieController) DeleteMovie() func(context *gin.Context) {
 	return func(context *gin.Context) {
 
