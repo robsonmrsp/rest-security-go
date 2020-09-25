@@ -4,19 +4,15 @@ import (
 	"fmt"
 	"math/rand"
 
+	"github.com/robsonmrsp/rest-security-go/app/domain/data"
 	"github.com/robsonmrsp/rest-security-go/app/domain/entities"
 )
-
-type GenreRepository interface {
-	SaveGenre(genre *entities.Genre) (*entities.Genre, error)
-	GetGenre(ID int) (*entities.Genre, error)
-}
 
 type genreRepository struct {
 	dataBaseHelper *DataBaseHelper
 }
 
-func NewGenreRepository(dbh *DataBaseHelper) GenreRepository {
+func NewGenreRepository(dbh *DataBaseHelper) data.GenreRepository {
 	return &genreRepository{dbh}
 }
 

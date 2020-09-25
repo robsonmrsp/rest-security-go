@@ -4,16 +4,16 @@ import (
 	"errors"
 	"log"
 
-	"github.com/robsonmrsp/rest-security-go/app/data/repository"
+	"github.com/robsonmrsp/rest-security-go/app/domain/data"
 	"github.com/robsonmrsp/rest-security-go/app/domain/entities"
 	"github.com/robsonmrsp/rest-security-go/app/presentation/rest/parser"
 )
 
 type movieService struct {
-	repo repository.MovieRepository
+	repo data.MovieRepository
 }
 
-func NewMovieService(repository repository.MovieRepository) MovieService {
+func NewMovieService(repository data.MovieRepository) MovieService {
 	return &movieService{repository}
 }
 

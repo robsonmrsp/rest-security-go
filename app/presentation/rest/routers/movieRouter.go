@@ -2,13 +2,13 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/robsonmrsp/rest-security-go/app/data/repository"
+	"github.com/robsonmrsp/rest-security-go/app/domain/data"
 	"github.com/robsonmrsp/rest-security-go/app/domain/services"
 	"github.com/robsonmrsp/rest-security-go/app/presentation/rest/controllers"
 )
 
 // Movies ...
-func Movies(engine *gin.Engine, repo repository.MovieRepository, middlewares gin.HandlerFunc) {
+func Movies(engine *gin.Engine, repo data.MovieRepository, middlewares gin.HandlerFunc) {
 
 	service := services.NewMovieService(repo)
 

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 
+	"github.com/robsonmrsp/rest-security-go/app/domain/data"
 	"github.com/robsonmrsp/rest-security-go/app/domain/entities"
 	"github.com/robsonmrsp/rest-security-go/app/presentation/rest/parser"
 )
@@ -12,13 +13,7 @@ type movieRepository struct {
 	dataBaseHelper *DataBaseHelper
 }
 
-type MovieRepository interface {
-	SaveMovie(movie *entities.Movie) (*entities.Movie, error)
-	GetMovie(ID int) (*entities.Movie, error)
-	GetPageMovie(page int, pageSize int, order string, orderBy string, filter parser.Parameters) (*[]entities.Movie, error)
-}
-
-func NewMovieRepository(dbh *DataBaseHelper) MovieRepository {
+func NewMovieRepository(dbh *DataBaseHelper) data.MovieRepository {
 	return &movieRepository{dbh}
 }
 
@@ -59,7 +54,7 @@ func (repo *movieRepository) GetPageMovie(page int, pageSize int, order string, 
 	if filter.Exists("title") {
 
 	}
-	rows, err := repo.dataBaseHelper.db.Query("SELECT id, title, release_date age FROM movie where id > $1 order by id OFFSET $2 LIMIT $3", 1, (pageSize)*(page-1), pageSize)
+	rows, err := repo.dataBaseHelper.db.Query("SELECT id, title, release_date age FROM movie where id > $1 order by id OFFSET $2 LIMIT $3", 0, (pageSize)*(page-1), pageSize)
 	// We still need to create a new
 	// query for count
 	if err != nil {

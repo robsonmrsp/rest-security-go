@@ -4,15 +4,15 @@ import (
 	"errors"
 	"log"
 
-	"github.com/robsonmrsp/rest-security-go/app/data/repository"
+	"github.com/robsonmrsp/rest-security-go/app/domain/data"
 	"github.com/robsonmrsp/rest-security-go/app/domain/entities"
 )
 
 type genreService struct {
-	repo repository.GenreRepository
+	repo data.GenreRepository
 }
 
-func NewGenreService(repository repository.GenreRepository) GenreService {
+func NewGenreService(repository data.GenreRepository) GenreService {
 	return &genreService{repository}
 }
 
