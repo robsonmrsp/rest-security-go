@@ -8,11 +8,6 @@ import (
 	"github.com/robsonmrsp/rest-security-go/app/domain/entities"
 )
 
-type GenreService interface {
-	SaveGenre(genre *entities.Genre) (*entities.Genre, error)
-	GetGenre(id int) (*entities.Genre, error)
-}
-
 type genreService struct {
 	repo repository.GenreRepository
 }

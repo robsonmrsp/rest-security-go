@@ -7,18 +7,21 @@ import (
 	"github.com/robsonmrsp/rest-security-go/app/domain/entities"
 )
 
-type GenreRepository struct {
+type GenreRepository interface {
+	SaveGenre(genre *entities.Genre) (*entities.Genre, error)
+	GetGenre(ID int) (*entities.Genre, error)
+}
+
+type genreRepository struct {
 	dataBaseHelper *DataBaseHelper
 }
 
-func NewGenreRepository(dbh *DataBaseHelper) *GenreRepository {
-	repo := new(GenreRepository)
-	repo.dataBaseHelper = dbh
-	return repo
+func NewGenreRepository(dbh *DataBaseHelper) GenreRepository {
+	return &genreRepository{dbh}
 }
 
 // SaveGenre ..
-func (repo *GenreRepository) SaveGenre(genre *entities.Genre) (*entities.Genre, error) {
+func (repo *genreRepository) SaveGenre(genre *entities.Genre) (*entities.Genre, error) {
 	newID := rand.Intn(10000)
 	stmt, err := repo.dataBaseHelper.tx.Prepare(`INSERT INTO genre(id, title, release_date) VALUES( $1, $2 )`)
 	if err != nil {
@@ -35,7 +38,7 @@ func (repo *GenreRepository) SaveGenre(genre *entities.Genre) (*entities.Genre, 
 }
 
 // GetGenre ...
-func (repo *GenreRepository) GetGenre(ID int) (*entities.Genre, error) {
+func (repo *genreRepository) GetGenre(ID int) (*entities.Genre, error) {
 	mo := entities.Genre{}
 
 	row := repo.dataBaseHelper.db.QueryRow("SELECT id, title, release_date age FROM genre where id = $1", ID)
@@ -46,28 +49,4 @@ func (repo *GenreRepository) GetGenre(ID int) (*entities.Genre, error) {
 		return nil, err
 	}
 	return &mo, nil
-}
-
-// AllGenres ..
-func AllGenres() ([]*entities.Genre, error) {
-	dataBaseHelper := GetDb()
-	rows, err := dataBaseHelper.db.Query("SELECT name")
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	people := make([]*entities.Genre, 0)
-	for rows.Next() {
-		genre := new(entities.Genre)
-		err := rows.Scan(&genre.ID, &genre.Name)
-		if err != nil {
-			return nil, err
-		}
-		people = append(people, genre)
-	}
-	if err = rows.Err(); err != nil {
-		return nil, err
-	}
-	return people, nil
 }

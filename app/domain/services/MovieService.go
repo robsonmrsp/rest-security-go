@@ -9,12 +9,6 @@ import (
 	"github.com/robsonmrsp/rest-security-go/app/presentation/rest/parser"
 )
 
-type MovieService interface {
-	SaveMovie(movie *entities.Movie) (*entities.Movie, error)
-	GetMovie(id int) (*entities.Movie, error)
-	GetPageMovie(*parser.PageParameters) (*[]entities.Movie, error)
-}
-
 type movieService struct {
 	repo repository.MovieRepository
 }

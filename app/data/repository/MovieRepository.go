@@ -8,18 +8,22 @@ import (
 	"github.com/robsonmrsp/rest-security-go/app/presentation/rest/parser"
 )
 
-type MovieRepository struct {
+type movieRepository struct {
 	dataBaseHelper *DataBaseHelper
 }
 
-func NewMovieRepository(dbh *DataBaseHelper) *MovieRepository {
-	repo := new(MovieRepository)
-	repo.dataBaseHelper = dbh
-	return repo
+type MovieRepository interface {
+	SaveMovie(movie *entities.Movie) (*entities.Movie, error)
+	GetMovie(ID int) (*entities.Movie, error)
+	GetPageMovie(page int, pageSize int, order string, orderBy string, filter parser.Parameters) (*[]entities.Movie, error)
+}
+
+func NewMovieRepository(dbh *DataBaseHelper) MovieRepository {
+	return &movieRepository{dbh}
 }
 
 // SaveMovie ..
-func (repo *MovieRepository) SaveMovie(movie *entities.Movie) (*entities.Movie, error) {
+func (repo *movieRepository) SaveMovie(movie *entities.Movie) (*entities.Movie, error) {
 	newID := rand.Intn(10000)
 	stmt, err := repo.dataBaseHelper.tx.Prepare(`INSERT INTO movie(id, title, release_date) VALUES( $1, $2, $3 )`)
 	if err != nil {
@@ -36,7 +40,7 @@ func (repo *MovieRepository) SaveMovie(movie *entities.Movie) (*entities.Movie, 
 }
 
 // GetMovie ...
-func (repo *MovieRepository) GetMovie(ID int) (*entities.Movie, error) {
+func (repo *movieRepository) GetMovie(ID int) (*entities.Movie, error) {
 	mo := entities.Movie{}
 
 	row := repo.dataBaseHelper.db.QueryRow("SELECT id, title, release_date age FROM movie where id = $1", ID)
@@ -50,7 +54,7 @@ func (repo *MovieRepository) GetMovie(ID int) (*entities.Movie, error) {
 }
 
 // GetPageMovie ...
-func (repo *MovieRepository) GetPageMovie(page int, pageSize int, order string, orderBy string, filter parser.Parameters) (*[]entities.Movie, error) {
+func (repo *movieRepository) GetPageMovie(page int, pageSize int, order string, orderBy string, filter parser.Parameters) (*[]entities.Movie, error) {
 	movies := []entities.Movie{}
 	if filter.Exists("title") {
 
@@ -73,28 +77,4 @@ func (repo *MovieRepository) GetPageMovie(page int, pageSize int, order string, 
 		return nil, err
 	}
 	return &movies, nil
-}
-
-// AllMovies ..
-func AllMovies() ([]*entities.Movie, error) {
-	dataBaseHelper := GetDb()
-	rows, err := dataBaseHelper.db.Query("SELECT title, release_date FROM movie")
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	people := make([]*entities.Movie, 0)
-	for rows.Next() {
-		movie := new(entities.Movie)
-		err := rows.Scan(&movie.ID, &movie.Title, &movie.ReleaseDate)
-		if err != nil {
-			return nil, err
-		}
-		people = append(people, movie)
-	}
-	if err = rows.Err(); err != nil {
-		return nil, err
-	}
-	return people, nil
 }

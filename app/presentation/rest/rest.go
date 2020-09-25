@@ -16,8 +16,8 @@ func Start() {
 	movieRepo := repository.NewMovieRepository(db)
 	genreRepo := repository.NewGenreRepository(db)
 
-	routers.Movies(engine, *movieRepo, mid)
-	routers.Genres(engine, *genreRepo, mid)
+	routers.Movies(engine, movieRepo, mid)
+	routers.Genres(engine, genreRepo, mid)
 
 	engine.Run()
 }

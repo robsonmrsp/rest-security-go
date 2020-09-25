@@ -1,12 +1,28 @@
 package main
 
-import (
-	"fmt"
-	"math/rand"
-	"time"
-)
+import "fmt"
 
 func main() {
-	rand.Seed(time.Now().UnixNano())
-	fmt.Println("My favorite number is", rand.Intn(100))
+	toChange := "to-change"
+	var pointer *string = &toChange
+	newPointer :=*pointer
+	
+	
+	teste(toChange)
+	teste2(&*pointer)
+	teste(newPointer)
+	
+	fmt.Println(toChange)
+	fmt.Println(pointer)
+
+	fmt.Println(&newPointer)
+}
+
+func teste(str string){
+	fmt.Println(str)
+}
+
+func teste2(str *string){
+	fmt.Println(str)
+	fmt.Println(&str)
 }
