@@ -9,7 +9,6 @@ import (
 
 // Movies ...
 func Movies(engine *gin.Engine, repo data.MovieRepository, middlewares gin.HandlerFunc) {
-
 	service := services.NewMovieService(repo)
 
 	controller := controllers.NewMovieController(service)
