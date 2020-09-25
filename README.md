@@ -4,4 +4,4 @@
 ## About The Project
 
 
-Developed by -> robsonmrsp@gmail.com.com
+Developed by -> robsonmrsp@gmail.com
