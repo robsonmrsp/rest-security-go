@@ -11,5 +11,5 @@ type Movie struct {
 	ID          int       `db:"id" `
 	Title       string    `db:"name"`
 	ReleaseDate time.Time `db:"release_date"`
-	Genre       Genre
+	Genre       *Genre
 }
