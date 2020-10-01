@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -48,24 +49,37 @@ func (controller *genreController) PostGenre() func(context *gin.Context) {
 		err := context.BindJSON(&mo)
 		if err != nil {
 			context.JSON(500, err)
+		} else {
+			mo, err = controller.service.SaveGenre(mo)
+			if err != nil {
+				context.JSON(500, err)
+			} else {
+				context.JSON(201, mo)
+			}
 		}
-		mo, err = controller.service.SaveGenre(mo)
-		if err != nil {
-			context.JSON(500, err)
-
-		}
-		context.JSON(201, mo)
 	}
 }
 
 func (controller *genreController) PutGenre() func(context *gin.Context) {
 	return func(context *gin.Context) {
-
+		mo := &entities.Genre{}
+		err := context.BindJSON(&mo)
+		if err != nil {
+			context.JSON(500, err)
+		}
+		mo, err = controller.service.UpdateGenre(mo)
+		if err != nil {
+			context.JSON(500, err)
+		}
+		context.JSON(201, mo)
 	}
 }
 
 func (controller *genreController) DeleteGenre() func(context *gin.Context) {
 	return func(context *gin.Context) {
+		id, _ := strconv.Atoi(context.Param("id"))
+		mo, err = controller.service.DeleteGenre(id)
+		context.JSON(204)
 
 	}
 }

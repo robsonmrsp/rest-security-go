@@ -30,8 +30,12 @@ func NewMovieController(movieService services.MovieService) MovieController {
 func (controller *movieController) GetMovie() func(c *gin.Context) {
 	return func(context *gin.Context) {
 		id, _ := strconv.Atoi(context.Param("id"))
-		person, _ := controller.service.GetMovie(id)
-		context.JSON(200, person)
+		person, err := controller.service.GetMovie(id)
+		if err != nil {
+			context.JSON(500, err)
+		} else {
+			context.JSON(200, person)
+		}
 	}
 }
 
@@ -39,9 +43,12 @@ func (controller *movieController) GetPageMovie() func(context *gin.Context) {
 	return func(context *gin.Context) {
 
 		p := parser.Create(context)
-		movie, _ := controller.service.GetPageMovie(p)
-
-		context.JSON(200, movie)
+		movie, err := controller.service.GetPageMovie(p)
+		if err != nil {
+			context.JSON(500, err)
+		} else {
+			context.JSON(200, movie)
+		}
 	}
 }
 
