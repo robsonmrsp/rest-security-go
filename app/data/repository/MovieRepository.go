@@ -17,6 +17,14 @@ func NewMovieRepository(dbh *DataBaseHelper) data.MovieRepository {
 	return &movieRepository{dbh}
 }
 
+func (repo *movieRepository) UpdateMovie(movie *entities.Movie) (*entities.Movie, error) {
+	return nil, nil
+}
+
+func (repo *movieRepository) DeleteMovie(movie *entities.Movie) (*entities.Movie, error) {
+	return nil, nil
+}
+
 // SaveMovie ..
 func (repo *movieRepository) SaveMovie(movie *entities.Movie) (*entities.Movie, error) {
 	newID := rand.Intn(10000)
@@ -49,6 +57,10 @@ func (repo *movieRepository) GetMovie(ID int) (*entities.Movie, error) {
 }
 
 // GetPageMovie ...
+func (repo *movieRepository) GetTotalMovies(page int, pageSize int, order string, orderBy string, filter parser.Parameters) (int32, error) {
+	return 200, nil
+}
+
 func (repo *movieRepository) GetPageMovie(page int, pageSize int, order string, orderBy string, filter parser.Parameters) (*[]entities.Movie, error) {
 	movies := []entities.Movie{}
 	if filter.Exists("title") {

@@ -10,9 +10,12 @@ type GenreRepository interface {
 	GetGenre(ID int) (*entities.Genre, error)
 }
 
-
+// MovieRepository ...
 type MovieRepository interface {
-	SaveMovie(movie *entities.Movie) (*entities.Movie, error)
 	GetMovie(ID int) (*entities.Movie, error)
+	SaveMovie(movie *entities.Movie) (*entities.Movie, error)
+	DeleteMovie(movie *entities.Movie) (*entities.Movie, error)
+	UpdateMovie(movie *entities.Movie) (*entities.Movie, error)
 	GetPageMovie(page int, pageSize int, order string, orderBy string, filter parser.Parameters) (*[]entities.Movie, error)
+	GetTotalMovies(page int, pageSize int, order string, orderBy string, filter parser.Parameters) (int32, error)
 }
