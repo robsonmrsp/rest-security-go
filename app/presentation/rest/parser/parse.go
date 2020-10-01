@@ -28,6 +28,16 @@ func (m *Parameters) Set(key string, val string) {
 	m.m[key] = val
 }
 
+type ReturnError struct {
+	Message string
+}
+
+// NewReturnError ...
+func NewReturnError(errorMessage string) *ReturnError {
+	err := &ReturnError{errorMessage}
+	return err
+}
+
 type PageParameters struct {
 	Page       int
 	PageSize   int
