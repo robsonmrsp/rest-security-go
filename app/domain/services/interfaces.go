@@ -7,13 +7,17 @@ import (
 
 // GenreService ...
 type GenreService interface {
-	SaveGenre(genre *entities.Genre) (*entities.Genre, error)
 	GetGenre(id int) (*entities.Genre, error)
+	SaveGenre(genre *entities.Genre) (*entities.Genre, error)
+	UpdateGenre(genre *entities.Genre) (*entities.Genre, error)
+	DeleteGenre(ID int32) (bool, error)
 }
 
 // MovieService ...
 type MovieService interface {
 	SaveMovie(movie *entities.Movie) (*entities.Movie, error)
+	UpdateMovie(movie *entities.Movie) (*entities.Movie, error)
 	GetMovie(id int) (*entities.Movie, error)
-	GetPageMovie(*parser.PageParameters) (*[]entities.Movie, error)
+	DeleteMovie(id int) (bool, error)
+	GetPageMovie(*parser.PageParameters) (*entities.PagerMovie, error)
 }
