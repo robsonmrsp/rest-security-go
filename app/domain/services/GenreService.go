@@ -12,11 +12,22 @@ type genreService struct {
 	repo data.GenreRepository
 }
 
+// NewGenreService ...
 func NewGenreService(repository data.GenreRepository) GenreService {
 	return &genreService{repository}
 }
 
 func (serv *genreService) SaveGenre(genre *entities.Genre) (*entities.Genre, error) {
+	genre, err := serv.repo.SaveGenre(genre)
+	if err != nil {
+		log.Print("Error saving genre", err)
+		return nil, err
+	}
+
+	return genre, nil
+}
+
+func (serv *genreService) UpdateGenre(genre *entities.Genre) (*entities.Genre, error) {
 	genre, err := serv.repo.SaveGenre(genre)
 	if err != nil {
 		log.Print("Error saving genre", err)
@@ -33,4 +44,9 @@ func (serv *genreService) GetGenre(id int) (*entities.Genre, error) {
 		return &entities.Genre{}, errors.New("Genre not find")
 	}
 	return m, nil
+}
+
+func (serv *genreService) DeleteGenre(ID int32) (bool, error) {
+
+	return true, nil
 }
