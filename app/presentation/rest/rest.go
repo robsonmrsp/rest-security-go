@@ -19,5 +19,5 @@ func Start() {
 	routers.Movies(engine, movieRepo, mid)
 	routers.Genres(engine, genreRepo, mid)
 
-	engine.Run()
+	engine.Run(":8888")
 }
